@@ -38,8 +38,8 @@ class Board:
         DeadStack a = new DeadStack(playableStack)
         
         #Then removes the stack in play on the board and replaces it with a new dead stack
-         array.remove(playableStack)
-
+        array[array.index(playableStack)] = a
+         
 
         
 
