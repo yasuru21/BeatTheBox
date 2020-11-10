@@ -6,9 +6,12 @@ class PlayableStack:
         Stack c = cards
 
 
-    def addCard(Deck k):
+    def addCard(k):
         #takes card from top of Deck and stores it
-        c.append(k.drawCard())
+        c.append(k)
+
+    def getTopCard():
+        return c[-1]
 
     def getStatus():
         return 0

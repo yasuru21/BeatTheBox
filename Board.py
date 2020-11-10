@@ -15,11 +15,13 @@ class Board:
     
     def compare(cardDrawn, stackPicked):
         #Sunil takes the drawn card and the player picked stack and compares the values of each and returns 
-        if(cardDrawn > stackPicked):
-            cardDrawn
-        else if(cardDrawn < stackPicked):
-
+        topCard = stackPicked.getTopCard()
+        if((cardDrawn > topCard) & (choice == 1)) | ((cardDrawn < topCard) & (choice == -1)) | ((cardDrawn == topCard) & (choice == 0)):
+            stackPicked.addCard(cardDrawn)
         else:
+            stackPicked.addCard(cardDrawn)
+            self.convert(stackPicked)
+
 
 
 
@@ -31,13 +33,12 @@ class Board:
         #uses isEmpty() in Deck class to determine if the deck is empty or not and then looks at itself
         #to see if there is any playable spots on the board still and returns string saying "Loser!"
     
-    def convert(i):
+    def convert(playableStack):
         #Sunil converts a playable stack to a dead stack
-
         DeadStack a = new DeadStack(playableStack)
-        array[i] = a
+        
         #Then removes the stack in play on the board and replaces it with a new dead stack
-         
+         array.remove(playableStack)
 
 
         
