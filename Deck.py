@@ -5,12 +5,26 @@ import random
 class Deck:
 
     def __init__(self):
+        self.contents = []
 
-    def isEmpty():
+    def newDeck(self):
+        #populates the deck randomly
+        suit = [2,3,4,5,6,7,8,9,10,11,12,13,14]
+        random.shuffle(suit)
+        for i in range(4):
+            for j in suit:
+                self.contents.append(j)
+
+    def isEmpty(self):
         #checks if deck still has members and returns true if empty and false if not empty
+        if len(self.contents) > 0:
+            return print("false")
+        else:
+            return print("true")
     
-    def newDeck():
-        #populates the deck randomly 
-    
-    def draw():
-        #returns top card from the deck 
+    def draw(self):
+        #returns top card from the deck
+        if len(self.contents) != 0: 
+            return self.contents.pop(0)
+        else:
+            print("Error: No cards in deck")
