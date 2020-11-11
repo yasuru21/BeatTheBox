@@ -4,5 +4,4 @@ import random
 import time 
 
 class MiniMax:
-
-    def __init__(self,)
+    def __init__(self):

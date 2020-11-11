@@ -1,17 +1,21 @@
 #container to store cards in a playable stack
+import Deck
 
 class PlayableStack:
-    Stack c = []
-    def __init__(self, cards):
-        Stack c = cards
+
+    def __init__(self):
+        self.contents = []
 
 
-    def addCard(k):
+    def addCard(self,cardPicked):
         #takes card from top of Deck and stores it
-        c.append(k)
+        self.contents.insert(0,cardPicked)
 
-    def getTopCard():
-        return c[-1]
+    def getTopCard(self):
+        return self.contents[0]
 
-    def getStatus():
-        return 0
+    def getStatus(self):
+        return True
+    
+    def getContents(self):
+        return self.contents
