@@ -53,7 +53,7 @@ class Board:
 
     def compare(self, cardDrawn, topOfStack, guess):
         #takes the drawn card and the player picked stack and compares the values of each and returns if whether they 'won' or 'lost'
-        if cardDrawn > topOfStack and guess == 1 or cardDrawn < topOfStack and guess == 0:
+        if cardDrawn > topOfStack and guess == 1 or cardDrawn < topOfStack and guess == 0 or cardDrawn == topOfStack and guess == 2:
             return True
         else:
             return False

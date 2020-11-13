@@ -10,7 +10,6 @@ class Deck:
     def newDeck(self):
         #populates the deck randomly
         suit = [2,3,4,5,6,7,8,9,10,11,12,13,14]
-        #random.shuffle(suit)
         for i in range(4):
             for j in suit:
                 self.contents.append(j)
