@@ -13,7 +13,7 @@ if __name__ == "__main__":
         #raise NotImplementedError
 
     #if option == 2:
-    print("To guess higher, enter '1'. To guess lower, enter '2'")
+    print("To guess higher, enter '1'. To guess lower, enter '0'")
     print()
     print("Initial Board")
 
