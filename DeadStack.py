@@ -11,3 +11,12 @@ class DeadStack:
 
     def getStatus(self):
         return False
+
+    def getContents(self):
+        return self.contents
+    
+    def getTopCard(self):
+        return self.contents[0]
+
+    def addDead(self):
+        self.contents.insert(0, 'X')

@@ -24,6 +24,7 @@ class Deck:
     
     def draw(self):
         #returns top card from the deck
+        #print("length of deck: " + str(len(self.contents)))
         if len(self.contents) > -1: 
             return self.contents.pop(0)
         else:

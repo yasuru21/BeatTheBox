@@ -3,8 +3,8 @@ import Deck
 
 class PlayableStack:
 
-    def __init__(self):
-        self.contents = []
+    def __init__(self, cards):
+        self.contents = cards
 
 
     def addCard(self,cardPicked):
@@ -19,3 +19,9 @@ class PlayableStack:
     
     def getContents(self):
         return self.contents
+
+    def getTopCard(self):
+        return self.contents[0]
+
+    def getStatus(self):
+        return True
