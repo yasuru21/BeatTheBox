@@ -61,8 +61,7 @@ class Board:
             return True
         else:
             return False
-        
-
+    
     def checkWin(self):
         #uses isEmpty() in Deck class to determine if the deck is empty or not and then looks at itself
         #to see if there is any playable spots on the board still and returns string saying "Winner!"
@@ -73,7 +72,7 @@ class Board:
                         print()
                         print("Winner!")
                         print()
-                        sys.exit()
+                        return True
                         
         counter = 0
         for row in self.array:
@@ -84,7 +83,7 @@ class Board:
                     print()
                     print("You Lost!")
                     print()
-                    sys.exit()
+                    return True
 
 
     def getChosen(self, position):

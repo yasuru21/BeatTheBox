@@ -2,70 +2,42 @@ import Board
 import Deck
 import sys
 import MiniMax
+import MonteCarlo
+import time
+
+
+myDeck = Deck.Deck()
+myBoard = Board.Board(myDeck)
 
 if __name__ == "__main__":
+
+    print()
+    print("Enter:")
+    print("1 for user play")
+    print("2 for one result of custom algorithm")
+    print("3 for ten results of custom algorithm")
+    print("4 for one result of Monte Carlo")
+    print("5 for ten results of Monte Carlo")
+    print("6 for one result of Monte Carlo vs custom algorithm")
+    option = input()
+    print()
+
     myDeck = Deck.Deck()
     myBoard = Board.Board(myDeck)
+    myBoard.populate()
 
-    print()
-    print("Enter '1' for Mini-Max play, '2' for user play and '3' for group built AI")
-    #option = input()
-    print()
+    #MiniMax.runMiniMax()
 
-    #if option == "1":
-
-    MiniMax.runMiniMax()
-
-    if option == "3":
-        print("Initial Board")
-
-        myBoard.populate()
-        myBoard.printBoard()
-
-        while True:
-            rowCol = []
-
-            myBoard.checkWin()
-
-            print()
-
-            location = myBoard.getLocation(myBoard.probStack())
-            if myBoard.getStackStatus(location) != True:
-                print("Invalid Stack")
-
-            guess = myBoard.choose(myBoard.probStack())
-            cardDrew = myDeck.draw()
-            chosen = myBoard.getChosen(location)
-
-            print("Value Chosen: " + str(chosen))
-            print("Card Drew: " + str(cardDrew))
-            print("Guess: " + str(guess))
-            print("deckLength: " + str(len(myDeck.getContents())))
-
-            if myBoard.compare(cardDrew, chosen, guess):
-                print("Correct!")
-                print()
-                print("Updated Board")
-                myBoard.updateBoard(True, location, cardDrew)
-            else:
-                print("Wrong")
-                print()
-                print("Updated Board")
-                myBoard.updateBoard(False, location, cardDrew)
-
-        
-
-    if option == "2":
+    if option == "1":
         print("To guess higher, enter '1'. To guess lower, enter '0'. To guess the same, enter '2'")
         print()
         print("Initial Board")
-
-        myBoard.populate()
         myBoard.printBoard()
         rowCol = []
 
         while True:
-            myBoard.checkWin()
+            if myBoard.checkWin():
+                break
 
             while True:
                 print()
@@ -96,3 +68,66 @@ if __name__ == "__main__":
                 print("Updated Board")
                 myBoard.updateBoard(False, rowCol, cardDrew)
             rowCol.clear()
+
+    if option == "2":
+        print("Initial Board")
+
+        myBoard.printBoard()
+        correctGuesses = 0
+        wrongGuesses = 0
+
+
+        t1 = time.perf_counter()
+        while True:
+            rowCol = []
+
+            if myBoard.checkWin():
+                break
+
+            print()
+
+            location = myBoard.getLocation(myBoard.probStack())
+            if myBoard.getStackStatus(location) != True:
+                print("Invalid Stack")
+
+            guess = myBoard.choose(myBoard.probStack())
+            cardDrew = myDeck.draw()
+            chosen = myBoard.getChosen(location)
+
+            print("Value Chosen: " + str(chosen))
+            print("Card Drew: " + str(cardDrew))
+            print("Guess: " + str(guess))
+
+            if myBoard.compare(cardDrew, chosen, guess):
+                correctGuesses += 1
+                print("Correct!")
+                print()
+                print("Updated Board")
+                myBoard.updateBoard(True, location, cardDrew)
+            else:
+                wrongGuesses += 1
+                print("Wrong")
+                print()
+                print("Updated Board")
+                myBoard.updateBoard(False, location, cardDrew)
+        t2 = time.perf_counter()
+        print("Time: " + str(round(t2 - t1, 5)))
+        print("Correct Guesses: " + str(correctGuesses))
+        print("Incorrect Guesses: " + str(wrongGuesses))
+        print("Cards Left in Deck: " + str(len(myDeck.getContents())))
+        print()
+
+
+    if option == "3":
+        raise NotImplementedError
+            
+    if option == "4":
+        MonteCarlo.runMonteCarlo()
+        
+    if option == "5":
+        raise NotImplementedError
+    
+    if option == "6":
+        raise NotImplementedError
+    
+
