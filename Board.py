@@ -13,6 +13,8 @@ class Board:
         self.array = [[],[],[]]
         self.deck = deck
 
+    #populates an empty matrix to represent the board
+    #Used In: main, MonteCarlo.runMonteCarlo()
     def populate(self):
         #removes top 9 cards from Deck and creates 3x3 matrix of board
         self.deck.newDeck()
@@ -25,6 +27,8 @@ class Board:
                     self.array[counter].append(aliveStack)
             counter += 1
 
+    #displays board to terminal
+    #used in main, MonteCarlo.runMontedCarlo()
     def printBoard(self):
         for row in self.array:
             currentBoard = []
@@ -33,8 +37,10 @@ class Board:
                 currentBoard.append(element.getTopCard())
             print(currentBoard)
 
+    #updates board by using a boolean, position, and a drawn card. Also prints board to terminal each time it's ran
+    #Used In: main, MonteCarlo.runMonteCarlo()
+    #Inputs: if the card drawn was higher or lower, the position of the original stack selected, card that was drawn
     def updateBoard(self, result, position, drawnCard):
-        #changes values on board after move is played and then prints board to console
         stack = self.array[position[0] - 1][position[1] - 1]
         if result == True:
             stack.addCard(drawnCard)
@@ -52,9 +58,11 @@ class Board:
                     printedBoard.append('X')
             print(printedBoard)
 
-
+    #compares value of the stack that was initially guessed on vs the value of the card drawn
+    #used in: main, MonteCarlo.runMonteCarlo()
+    #Input: card drawn from deck, card at top of a stack, a guess
+    #Returns: Boolean
     def compare(self, cardDrawn, topOfStack, guess):
-        #takes the drawn card and the player picked stack and compares the values of each and returns if whether they 'won' or 'lost'
         if guess == 3:
             guess = random.choice([1,2])
         if cardDrawn > topOfStack and guess == 1 or cardDrawn < topOfStack and guess == 0 or cardDrawn == topOfStack and guess == 2:
@@ -62,6 +70,9 @@ class Board:
         else:
             return False
     
+    #Checks if a win or loss condition has been met yet
+    #used in: main, MonteCarlo.runMonteCarlo()
+    #returns Boolean or None
     def checkWin(self):
         #uses isEmpty() in Deck class to determine if the deck is empty or not and then looks at itself
         #to see if there is any playable spots on the board still and returns string saying "Winner!"
@@ -85,54 +96,25 @@ class Board:
                     print()
                     return True
 
-
+    #gets which number is on the top of a stack based on stacks location
+    #Used In: main, MonteCarlo.runMonteCarlo()
+    #Input: [row number, column number]
+    #Returns: a stacks top card
     def getChosen(self, position):
         #displays what number is on top of stack
         return (self.array[position[0] - 1][position[1] - 1]).getTopCard()
 
+    #tells whether a stack is alive or dead based on stacks location
+    #Used In: main, MonteCarlo.runMonteCarlo()
+    #Input: [row number, column number]
+    #Returns: a stacks alive or dead status
     def getStackStatus(self, position):
         return (self.array[position[0] - 1][position[1] - 1]).getStatus()
 
-    #Mini-Max functions
-
-    def parseStacks(self):
-        lowerEight = 0
-        higherEight = 0
-        highLow = []
-        for row in self.array:
-            for stack in row:
-                for cards in stack.getContents():
-                    if cards < 8:
-                        lowerEight += 1
-                    if cards > 8:
-                        higherEight += 1
-        highLow.append(higherEight)
-        highLow.append(lowerEight)
-        return highLow
-    
-    def cardsPlayed(self):
-        allCards = []
-        for row in self.array:
-            for stack in row:
-                for cards in stack.getContents():
-                    allCards.append(cards)
-        return allCards
-    
-    def probDeck(self): #returns most likely cards to be picked from deck
-        occurences = {2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0}
-        probs = {2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0}
-        highProbCards = []      #stores highest probable cards to pull from deck
-        for card in Board.cardsPlayed(self):
-            occurences[card] += 1
-        for i in occurences:
-            probs[i] = (4 - occurences[i]) / len(self.deck.getContents())
-        highestProb = max(probs.values())
-        for i in probs:
-            if probs[i] == highestProb:
-                highProbCards.append(i)
-        return highProbCards
-
-    def probStack(self): #returns which card you have the best chance of getting correct in the matrix
+    #finds which card you have the best chance of getting correct in the matrix
+    #Used In: main, MonteCarlo.runMonteCarlo()
+    #returns: a card number
+    def probStack(self): 
         card = 0
         highestDist = 0
         topCards = []
@@ -149,7 +131,11 @@ class Board:
             card = 8
         return card
 
-    def choose(self, cardChosen):   #returns 1 if guess should be higher, 0 if guess should be lower, and 3 if random guess is needed 
+    #chooses a guess based on what cards are in the deck and what the value of the card chosen is
+    #Used In: main
+    #Input: card at top of a stack
+    #Returns: a guess
+    def choose(self, cardChosen):    
         higherCount = 0
         lowerCount = 0
         sameCount = 0
@@ -171,7 +157,10 @@ class Board:
         else: 
             return "Invalid choice"
         
-
+    #Finds the location of a stack
+    #Used In: main, MonteCarlo.runMonteCarlo()
+    #Input: playable or dead stack
+    #Returns: [Row Number, Column Number]
     def getLocation(self, bestStack):
         rowNum = 0
         colNum = 0
@@ -183,50 +172,3 @@ class Board:
                 if stack.getTopCard() == bestStack and stack.getStatus() != False:
                     return [rowNum, colNum]
         return "error: card not found"
-
-    def minimaxUpdate(self, tf, stack):
-        loc = Board.getLocation(self, stack)
-        if tf == False:
-            deadStack = DeadStack.DeadStack()
-            deadStack.copyPlayable(stack.getContents())
-            stack = deadStack
-            stack.addDead()
-        self.array[loc[0]][loc[1]] = stack
-        Board.printBoard(self)
-
-    def aliveStacks(self):
-        livingStacks = []
-        for row in self.array:
-            for stack in row:
-                if stack.getStatus() != False:
-                    livingStacks.append(stack)
-        return livingStacks
-
-    def getStack(self, topCard):
-        loc = Board.getLocation(self, topCard)
-        print(type(loc[0]))
-        stack = self.array[loc[0] - 1][loc[1] - 1]
-        if stack.getStatus == True:
-            return stack
-
-    def tempGuess(self, cardChosen, tempDeck):
-        higherCount = 0
-        lowerCount = 0
-        sameCount = 0
-        for card in tempDeck:
-            if card > cardChosen:
-                higherCount += 1
-            if card < cardChosen:
-                lowerCount += 1
-            if card == cardChosen:
-                sameCount += 1
-        if lowerCount > higherCount:
-            return 0
-        if higherCount > lowerCount:
-            return 1
-        if sameCount == len(tempDeck):
-            return 2
-        if higherCount == lowerCount:
-            return 3
-        else: 
-            return "Invalid choice"

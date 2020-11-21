@@ -1,7 +1,6 @@
 import Board
 import Deck
 import sys
-import MiniMax
 import MonteCarlo
 import time
 
@@ -9,24 +8,21 @@ import time
 myDeck = Deck.Deck()
 myBoard = Board.Board(myDeck)
 
+#Explanation of benchmark algorithm and Monte Carlo are in README file
+
 if __name__ == "__main__":
 
     print()
     print("Enter:")
     print("1 for user play")
     print("2 for one result of custom algorithm")
-    print("3 for ten results of custom algorithm")
-    print("4 for one result of Monte Carlo")
-    print("5 for ten results of Monte Carlo")
-    print("6 for one result of Monte Carlo vs custom algorithm")
+    print("3 for one result of Monte Carlo")
     option = input()
     print()
 
     myDeck = Deck.Deck()
     myBoard = Board.Board(myDeck)
     myBoard.populate()
-
-    #MiniMax.runMiniMax()
 
     if option == "1":
         print("To guess higher, enter '1'. To guess lower, enter '0'. To guess the same, enter '2'")
@@ -119,15 +115,4 @@ if __name__ == "__main__":
 
 
     if option == "3":
-        raise NotImplementedError
-            
-    if option == "4":
         MonteCarlo.runMonteCarlo()
-        
-    if option == "5":
-        raise NotImplementedError
-    
-    if option == "6":
-        raise NotImplementedError
-    
-
